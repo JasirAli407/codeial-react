@@ -1,22 +1,49 @@
-import React, { useEffect, useState } from 'react';
-import { getPost } from '../api';
-import {Home}  from '../pages';
+import React from 'react';
+import 'react-toastify/dist/ReactToastify.css';
+import { Home, Login, Signup, Settings, UserProfile } from '../pages';
+import { Loader, Navbar } from './';
+import { BrowserRouter as Router, Routes, Route, Outlet, Navigate } from 'react-router-dom';
+import { useAuth } from '../hooks';
+
+const Page404 = () => {
+  return <div>404:PAGE NOT FOUND!!</div>;
+};
+
+
+function PrivateRoutes(){
+const auth = useAuth();
+  // v use outlet comp so that v can nest child route comps inside route comps
+ return  auth.user? <Outlet /> :  <Navigate to='/login'/>
+}
+
+
 function App() {
+  const auth = useAuth();
+ 
 
-  const[loading, setLoading] = useState(true)
+  if (auth.loading) {
+    return <Loader />;
+  }
 
-  // synchronous function can only be passed to useEffect hook; thats why we wrap it in a function
-  useEffect(() => {
-    const fetchPosts = async () => {
-      const response = await getPost();
-      console.log('response',response);
-    };
+  return (
+    <div>
+      <Router>
+        <Navbar />
+        <Routes>
+          <Route path="/" element={<Home />} />
 
-    fetchPosts();
-  }, []);
-  return <div>
-   <Home/>
-  </div>;
+          <Route  element={<PrivateRoutes />} >
+          <Route path="/settings" element={<Settings />} />
+          <Route path="/user/:userid" element={<UserProfile />} />
+          </Route>
+
+          <Route path="/signup" element={<Signup />} />          
+          <Route path="/login" element={<Login />} />          
+          <Route path="*" element={<Page404 />} />
+        </Routes>
+      </Router>
+    </div>
+  );
 }
 
 export default App;
