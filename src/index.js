@@ -4,6 +4,7 @@ import { ToastContainer } from 'react-toastify';
 import './styles/index.css';
 import 'font-awesome/css/font-awesome.min.css';
 import { App } from './components';
+import { BrowserRouter as Router} from 'react-router-dom';
 import { AuthProvider, PostsProvider } from './providers';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
@@ -22,7 +23,9 @@ root.render(
     />
     <AuthProvider>
       <PostsProvider>
+        <Router>
         <App />
+        </Router>
       </PostsProvider>
     </AuthProvider>
   </React.StrictMode>

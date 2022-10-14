@@ -6,7 +6,7 @@ import { BrowserRouter as Router, Routes, Route, Outlet, Navigate } from 'react-
 import { useAuth } from '../hooks';
 
 const Page404 = () => {
-  return <div>404:PAGE NOT FOUND!!</div>;
+  return <div style={{margin:'auto'}}>404:PAGE NOT FOUND!!</div>;
 };
 
 
@@ -26,8 +26,8 @@ function App() {
   }
 
   return (
-    <div>
-      <Router>
+    <div> 
+      
         <Navbar />
         <Routes>
           <Route path="/" element={<Home />} />
@@ -41,7 +41,7 @@ function App() {
           <Route path="/login" element={<Login />} />          
           <Route path="*" element={<Page404 />} />
         </Routes>
-      </Router>
+      
     </div>
   );
 }
